@@ -20,7 +20,7 @@ export default class ToDo extends React.Component {
                         <View style={[styles.circle, isCompleted ? styles.completedCircle : styles.uncompletedCircle]}></View>
                     </TouchableOpacity>
                     { isEditing ? (
-                        <TextInput style={[styles.input,  styles.text]} value={todoValue} multiline={true} onChangeText={this._controlInput} returnKeyType={"done"} onBlur={this._finishEditing} />
+                        <TextInput style={[styles.text, styles.input]} value={todoValue} multiline={true} onChangeText={this._controlInput} returnKeyType={"done"} onBlur={this._finishEditing} />
                     ) : (
                         <Text style={[styles.text, isCompleted ? styles.completedText : styles.uncompletedText]}>{text}</Text>
                     )}
@@ -98,14 +98,12 @@ const styles = StyleSheet.create({
     column: {
         flexDirection: "row",
         alignItems: "center",
-        width: width / 2,
-        justifyContent: "space-between"
+        width: width / 2
     },
     circle: {
         width: 30,
         height: 30,
         borderRadius: 15,
-        borderColor: "red",
         borderWidth: 3,
         marginRight: 15
     },
@@ -131,14 +129,15 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     actionContainer: {
-        marginVertical: 20,
+        marginVertical: 15,
         marginHorizontal: 10
     },
     actionText: {
 
     },
     input: {
-        marginVertical: 20,
-        width: width / 2
+        marginVertical: 15,
+        width: width / 2,
+        paddingBottom: 5
     }
 })
