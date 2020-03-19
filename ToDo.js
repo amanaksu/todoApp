@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, TextInput } from "react-native";
 import PropTypes from "prop-types";
-import { supportsOrientationLockAsync } from "expo/build/ScreenOrientation/ScreenOrientation";
 
 const { width, height } = Dimensions.get("window");
 
@@ -10,7 +9,7 @@ export default class ToDo extends React.Component {
         super(props);
         this.state = {
             isEditing: false,
-            todoValue: props.text
+            toDoValue: props.text
         };
     }
 
@@ -20,11 +19,12 @@ export default class ToDo extends React.Component {
         deleteToDo: PropTypes.func.isRequired,
         id: PropTypes.string.isRequired,
         uncompleteToDo: PropTypes.func.isRequired,
-        completeToDo: PropTypes.func.isRequired
+        completeToDo: PropTypes.func.isRequired,
+        updateToDo: PropTypes.func.isRequired
     };
     
     render() {
-        const { isEditing, todoValue } = this.state;
+        const { isEditing, toDoValue } = this.state;
         const { text, id, deleteToDo, isCompleted } = this.props;
         return (
             <View style={styles.container}>
@@ -33,7 +33,7 @@ export default class ToDo extends React.Component {
                         <View style={[styles.circle, isCompleted ? styles.completedCircle : styles.uncompletedCircle]}></View>
                     </TouchableOpacity>
                     { isEditing ? (
-                        <TextInput style={[styles.text, styles.input]} value={todoValue} multiline={true} onChangeText={this._controlInput} returnKeyType={"done"} onBlur={this._finishEditing} />
+                        <TextInput style={[styles.text, styles.input]} value={toDoValue} multiline={true} onChangeText={this._controlInput} returnKeyType={"done"} onBlur={this._finishEditing} />
                     ) : (
                         <Text style={[styles.text, isCompleted ? styles.completedText : styles.uncompletedText]}>{text}</Text>
                     )}
@@ -86,6 +86,9 @@ export default class ToDo extends React.Component {
     };
 
     _finishEditing = () => {
+        const { toDoValue } = this.state;
+        const { id, updateToDo } = this.props;
+        updateToDo(id, toDoValue);
         this.setState({
             isEditing: false
         });
@@ -93,7 +96,7 @@ export default class ToDo extends React.Component {
 
     _controlInput = text => {
         this.setState({
-            todoValue: text
+            toDoValue: text
         });
     };
 }
