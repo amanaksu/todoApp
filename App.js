@@ -41,11 +41,12 @@ export default class App extends React.Component {
                      onSubmitEditing={this._addToDo} />
           <ScrollView contentContainerStyle={styles.toDos}>
             {Object.values(toDos).reverse().map(toDo => (
-              <ToDo key={toDo.id} {...toDo} 
+              <ToDo key={toDo.id}
                 deleteToDo={this._deleteToDo}
                 uncompleteToDo={this._uncompleteToDo}
                 completeToDo={this._completeToDo}
                 updateToDo={this._updateToDo}
+                {...toDo}
               />))}
           </ScrollView>
         </View>
@@ -65,7 +66,7 @@ export default class App extends React.Component {
       const parsedToDos = JSON.parse(toDos);
       this.setState({
         loadedToDos: true,
-        toDos: parsedToDos
+        toDos: parsedToDos || {}
       });
     } catch (error) {
       console.log(error);
