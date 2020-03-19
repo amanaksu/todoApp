@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ToDo",
-    "slug": "To Do App made with React Native",
+    "slug": "kei-todo",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -11,10 +11,11 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/icon.jpg",
-      "resizeMode": "conver",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#F23657"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,7 +24,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kei.todoApp",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.kei.todoApp",
+      "versionCode": 1
     }
   }
 }
