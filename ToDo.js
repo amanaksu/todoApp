@@ -1,24 +1,31 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, TextInput } from "react-native";
 import PropTypes from "prop-types";
+import { supportsOrientationLockAsync } from "expo/build/ScreenOrientation/ScreenOrientation";
 
 const { width, height } = Dimensions.get("window");
 
 export default class ToDo extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isEditing: false,
+            todoValue: props.text
+        };
+    }
+
     static propTypes = {
         text: PropTypes.string.isRequired,
-        isCompleted: PropTypes.bool.isRequired
+        isCompleted: PropTypes.bool.isRequired,
+        deleteToDo: PropTypes.func.isRequired,
+        id: PropTypes.string.isRequired,
+        uncompleteToDo: PropTypes.func.isRequired,
+        completeToDo: PropTypes.func.isRequired
     };
     
-    state = {
-        isEditing: false,
-        isCompleted: false,
-        todoValue: ""
-    };
-
     render() {
-        const { isEditing, isCompleted, todoValue } = this.state;
-        const { text } = this.props;
+        const { isEditing, todoValue } = this.state;
+        const { text, id, deleteToDo, isCompleted } = this.props;
         return (
             <View style={styles.container}>
                 <View style={styles.column}>
@@ -52,7 +59,7 @@ export default class ToDo extends React.Component {
                                 <Text style={styles.actionText}>✏</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPressOut={() => deleteToDo(id)}>
                             <View style={styles.actionContainer}>
                                 <Text style={styles.actionText}>❌</Text>
                             </View>
@@ -64,18 +71,17 @@ export default class ToDo extends React.Component {
     };
 
     _toggleComplete = () => {
-        this.setState(prevState => {
-            return {
-                isCompleted: !prevState.isCompleted
-            };
-        });
+        const { isCompleted, uncompleteToDo, completeToDo, id } = this.props;
+        if ( isCompleted ) {
+            uncompleteToDo(id);
+        } else {
+            completeToDo(id);
+        }
     };
 
     _startEditing = () => {
-        const { text } = this.props;
         this.setState({
-            isEditing: true,
-            todoValue: text
+            isEditing: true
         });
     };
 
